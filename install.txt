@@ -1,0 +1,7 @@
+install.txt
+
+1.安装python3以上版本
+2.pip install tornado
+3.pip install mako
+4.启动命令：python3 manage.py
+注：2，3为安装tornado和mako库命令

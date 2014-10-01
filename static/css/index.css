@@ -1,0 +1,131 @@
+body {
+    background-color: #fff;
+    margin: 0;
+}
+
+div {
+    margin: 0 auto;
+    padding: 5px;
+}
+
+textarea,input {
+    border: 1px #ccc solid;
+    resize:none;
+}
+
+#header {
+    width: 1090px;
+    text-align: right;
+}
+
+#mgr_nav {
+    width: 1090px;
+
+}
+
+#index #main {
+    width: 1090px;
+    border-left: 1px #ccc dotted;
+    border-right: 1px #ccc dotted;
+    padding-top: 0;
+    min-height: 500px;
+}
+
+#signup #main {
+    width: 1090px;
+    border-left: 1px #ccc solid;
+    border-right: 1px #ccc solid;
+    border-top: 1px #ccc solid;
+    padding-top: 0;
+    min-height: 500px;
+}
+
+#signup table {
+    margin:0 auto;
+    position:relative;
+    top:200px;
+}
+
+#leftside {
+    float: left;
+    width: 250px;
+    border-top: 1px #ccc solid;
+    font-size: .75em;
+/*    border-left: 1px #eee solid;
+    border-right:1px #eee solid;*/
+}
+
+#thrzone {
+    float: left;
+    width: 490px;
+    margin-left: 20px;
+    border-top: 1px #ccc solid;
+    font-size: .85em;
+}
+
+#rightside {
+    border-top: 1px #ccc solid;
+    float: right;
+    width: 290px;
+} 
+.asker {
+    /*color: #666;*/
+}
+#crt_sbjct{
+    display: none;
+    width: 1090px;
+}
+
+#my_reply {
+    padding: 0;
+}
+
+#footer {
+    height: 60px;
+    width: 1060px;
+    background-color: #cfc;
+    padding-left: 40px;
+    font-size: 1.0em;
+    padding-top: 20px;
+}
+
+.hlp_main {
+    border-bottom: 1px #ccc dotted;
+    margin-bottom: 5px;
+}
+
+.replyer {
+    color:#393;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    background-color: #363;
+    color: #fff;
+}
+
+a:visited,a:link {
+    color:black;
+}
+
+ul,li {
+    text-decoration: none;
+    list-style: none;
+    padding-left: 0;
+}
+
+span.head_logo {
+    display: block;
+    float: left;
+    left: 260px;
+    color: #060;
+    font-size: 1.2em;
+    position: relative;
+}
+
+span.head_logo span.logo_name {
+    color: #f90;
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>智动交互式学习系统</title>
+<link href="${static_url('css/index.css')}" rel="stylesheet" type="text/css" />
+<script src="${static_url('js/jquery-1.11.1.min.js')}"></script>
+<script src="${static_url('js/index.js')}"></script>
+<script src="${static_url('js/logoanimate.js')}"></script>
+<style type="text/css">
+div {
+    /*border: 1px red solid;*/
+}
+</style>
+</head>
+<body id="index">
+    <div id="header">
+        <span class="head_logo"><span class="logo_name">智 动</span> 交 互 式 学 习 系 统</span>
+    %if name:
+        ${name} 欢迎进入本学习系统。<a href="/logout">退出</a>
+    %else:
+
+        <form action="" method="post">
+            你还没有登录?
+            姓名:<input type="text" size="8" name="name" required placeholder="用户名" />
+            密码:<input type="password" size="8" name="psswd"  required placeholder="密码" />
+            <input type="submit" value="登录" />
+            <a href="/signup">注册</a>
+        </form>
+
+    %endif
+    </div>
+    %if usertype:
+    <div id="mgr_nav">
+        <input type="button" id="disp_crt_sbjct" value="创建学习主题" />
+        <input type="button" id="dis_enable_other" value="开关显示所有答案" />
+    </div>
+    %endif
+    <div id="main">
+        <div id="leftside">
+            <h3>学习主题</h3>
+            % if all_sbjcts:
+                <ul>
+                % for i in all_sbjcts:
+                    <li><a href="/${i[0]}">${i[1]}</a></li>
+                % endfor
+                </ul>
+            % endif
+        </div>
+        <div id="thrzone">
+            % if crrnt_sbjct:
+                <h3>${crrnt_sbjct[1]}</h3>
+                ${crrnt_sbjct[2]}
+                <input type="hidden" value="${crrnt_sbjct[0]}" id="crrnt_sbjt_id" />
+            % endif
+
+            % if all_answrs:
+                %for item in all_answrs:
+                    <p>${item[3]}<br/>
+                        <span class="replyer">${item[2]}</span>:(${item[4]})</p>
+                %endfor
+            % endif
+
+            % if name:
+            <div id="my_reply">
+                <input type="hidden" value="${stu_id}" id="stu_id" />
+                <textarea id="my_answr" cols="75" rows="20"  required placeholder="我的答案"></textarea>
+                <input type="button" id="my_answr_btn" value="提交我的回答" />
+            </div>
+            %endif
+        </div>
+        <div id="rightside">
+            %for item in all_hlp_self:
+            <div class="hlp_main">
+                <p><span class="replyer">${item[0][4]}:</span>${item[0][2]}</p>
+                %for aitem in item[1]:
+                    <p><span class="replyer">${aitem[2]}回复:</span>${aitem[1]}</p>
+                %endfor
+
+                <input type="hidden" value="${item[0][0]}" id="ask_id" />
+                %if name:
+                <input type="text" size="45" id="reply_hlp"  required placeholder="回复内容" />
+                <input type="button" id="sbmt_hlp" value="回复" />
+                %endif
+            </div>
+            %endfor
+
+            % if name:
+            <textarea id="my_ask" cols="45" rows="3" required placeholder="求助问题"></textarea>
+            <input type="button" id="add_my_ask" value="我要求助" />
+            % endif
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    <div id="crt_sbjct">
+        学习主题:<br />
+        <input type="text" id="title" size="100"  required placeholder="学习主题"/><br />
+        <textarea id="qstn" cols="160" rows="30"  required placeholder="问题列表"></textarea><br />
+        <input type="button" id="add_qstn" value="添加学习主题" />
+    </div>
+    <div id="footer">
+        clove <br/>
+        版权所有<br />
+        @copyright
+    </div>
+</body>
+</html>

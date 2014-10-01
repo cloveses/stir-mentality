@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>注册</title>
+<link href="${static_url('css/index.css')}" rel="stylesheet" type="text/css" />
+<script src="${static_url('js/jquery-1.11.1.min.js')}"></script>
+<script src="${static_url('js/logoanimate.js')}"></script>
+</head>
+
+<body id="signup">
+	<div id="header">
+        <span class="head_logo"><span class="logo_name">智 动</span> 交 互 式 学 习 系 统</span>
+        <form action="" method="post">
+            你还没有登录?
+            姓名:<input type="text" size="8" name="name" required placeholder="用户名" />
+            密码:<input type="password" size="8" name="psswd"  required placeholder="密码" />
+            <input type="submit" value="登录" />
+            <a href="/signup">注册</a>
+        </form>
+    </div>
+	<div id="main">
+		<form action="" method="post">
+			<table>
+				<thead>${msg}</thead>
+				<tr>
+					<td>
+						姓名：
+					</td>
+					<td>
+						<input name="name" type="text" required placeholder="用户名" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						密码：
+					</td>
+					<td>
+						<input name="ps" type="password" required placeholder="密码" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						密码：
+					</td>
+					<td>
+						<input name="psbak" type="password"  required placeholder="密码" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						管理注册附加码：
+					</td>
+					<td>
+						<input name="mgr_code" type="password" required placeholder="管理注册附加码" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input name="" type="submit" value="提交"/>	
+					</td>
+				</tr>
+			</table>
+
+		</form>
+	</div>
+	<div id="footer">
+		clove <br/>
+        版权所有<br />
+        @copyright
+     </div>
+</body>
+</html>
