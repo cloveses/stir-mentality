@@ -230,8 +230,8 @@ class Stu(object):
                 )
             res = res.fetchall()
             res_ip = db.execute(
-                "select * from stds where ipaddr=?",
-                (self.ipaddr,)
+                "select * from stds where ipaddr=? and name != ?",
+                (self.ipaddr,self.name)
                 )
             res_ip = res_ip.fetchall()
         if res and not res_ip:
@@ -253,6 +253,14 @@ class Stu(object):
             return res[1]
         else:
             return ''
+    def had_name(self):
+        with MySqliteDb() as db:
+            res = db.execute("select * from stds where name=?",(self.name,))
+            res = res.fetchall()
+        if res:
+            return True
+        else:
+            return False
 
 def setupDb():
     if not os.path.exists('mys.db'):

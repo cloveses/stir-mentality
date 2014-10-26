@@ -67,6 +67,7 @@ textarea,input {
     border-top: 1px #ccc solid;
     float: right;
     width: 290px;
+    font-size: .70em;
 } 
 .asker {
     /*color: #666;*/
@@ -128,4 +129,11 @@ span.head_logo {
 
 span.head_logo span.logo_name {
     color: #f90;
+}
+
+.error {
+    font-size: 1em;
+    font-style: bold;
+    text-align: center;
+    color: red;
 }

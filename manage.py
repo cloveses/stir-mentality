@@ -148,7 +148,11 @@ class SignUpHandler(BaseHandler):
             para_dict.update({key:self.get_argument(key,default='')})
         if all(para_dict.values()):
             if para_dict['ps']==para_dict['psbak']:
-                Stu(name=para_dict['name'],psswd=para_dict['ps'],usertype=usertype).save()
+                astu = Stu(name=para_dict['name'],psswd=para_dict['ps'],usertype=usertype)
+                if astu.had_name():
+                    self.redirect('/signup?msg='+url_escape("用户名已经被注册!"))
+                    return
+                astu.save()
                 re = Stu(name=para_dict['name'],psswd=para_dict['ps']).isRgstr()
                 if re:
                     self.set_secure_cookie('name',str(re[1]))
