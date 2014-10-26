@@ -57,7 +57,8 @@ def initDb(db):
         id integer primary key autoincrement not null,
         name varchar(8),
         psswd varchar(256),
-        usertype integer
+        usertype integer,
+        ipaddr varchar(20)
             )
         ''',
         '''
@@ -205,18 +206,19 @@ class StuAnswr(object):
 
 class Stu(object):
     """class for stds"""
-    def __init__(self,id=0, name='',psswd='',usertype=0):
+    def __init__(self,id=0, name='',psswd='',usertype=0,ipaddr=''):
         self.id = id
         self.name = name
         self.psswd = psswd
         self.usertype = usertype
+        self.ipaddr = ipaddr
 
     def save(self):
         if self.name and self.psswd:
             with MySqliteDb() as db:
                 db.execute(
-                    "insert into stds (name,psswd,usertype) values (?,?,?)",
-                    (self.name,self.psswd,self.usertype)
+                    "insert into stds (name,psswd,usertype,ipaddr) values (?,?,?,?)",
+                    (self.name,self.psswd,self.usertype,self.ipaddr)
                     )
             return True
 
@@ -227,7 +229,16 @@ class Stu(object):
                 (self.name,self.psswd)
                 )
             res = res.fetchall()
-        if res:
+            res_ip = db.execute(
+                "select * from stds where ipaddr=?",
+                (self.ipaddr,)
+                )
+            res_ip = res_ip.fetchall()
+        if res and not res_ip:
+            with MySqliteDb() as db:
+                db.execute("update stds set ipaddr=? where name=? and psswd=?",
+                    (self.ipaddr,self.name,self.psswd)
+                    )
             return res[0]
         else:
             return False
@@ -249,6 +260,11 @@ def setupDb():
             initDb(db)
             print("Sqlite3 Db initialize success!")
 
+def initIpaddr():
+    with MySqliteDb() as db:
+        db.execute("update stds set ipaddr=''")
+    print('Ip address initialize success!')
+
 if __name__ == '__main__':
     # with MySqliteDb() as db:
         # initDb(db)
@@ -260,5 +276,7 @@ if __name__ == '__main__':
         # res = db.execute("select * from hlp_answrs")
         # print(res.fetchall())
         # db.execute("alter table stds add column usertype integer default 0")
+        # db.execute("alter table stds add column ipaddr varchar(20)")
+        
         # pass
     print('Sqlite3 testing success!')

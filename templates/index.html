@@ -22,7 +22,11 @@ div {
     %else:
 
         <form action="" method="post">
+            %if info:
+                ${info}
+            %else:
             你还没有登录?
+            %endif
             姓名:<input type="text" size="8" name="name" required placeholder="用户名" />
             密码:<input type="password" size="8" name="psswd"  required placeholder="密码" />
             <input type="submit" value="登录" />
@@ -80,14 +84,14 @@ div {
 
                 <input type="hidden" value="${item[0][0]}" id="ask_id" />
                 %if name:
-                <input type="text" size="45" id="reply_hlp"  required placeholder="回复内容" />
+                <input type="text" size="40" id="reply_hlp"  required placeholder="回复内容" />
                 <input type="button" id="sbmt_hlp" value="回复" />
                 %endif
             </div>
             %endfor
 
             % if name:
-            <textarea id="my_ask" cols="45" rows="3" required placeholder="求助问题"></textarea>
+            <textarea id="my_ask" cols="40" rows="3" required placeholder="求助问题"></textarea>
             <input type="button" id="add_my_ask" value="我要求助" />
             % endif
         </div>

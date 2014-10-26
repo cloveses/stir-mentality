@@ -6,7 +6,7 @@ from tornado.ioloop import IOLoop
 from tornado.web import RequestHandler, Application,authenticated
 from tornado.escape import url_escape,json_encode
 # from db_mgr import MySqliteDb as myDb
-from db_mgr import Stu,StuSbjct,StuAnswr,AskHelps,HlpAnswrs,setupDb
+from db_mgr import Stu,StuSbjct,StuAnswr,AskHelps,HlpAnswrs,setupDb,initIpaddr
 
 from mako.template import Template
 from mako.lookup import TemplateLookup
@@ -56,6 +56,7 @@ LINE_LEN = 38
 class HelloHandler(BaseHandler):
     """ index page """
     def get(self,sbjct_id):
+        info = self.get_argument("info",default='')
         all_sbjcts = StuSbjct().getSbjcts()
         name = self.get_secure_cookie('name')
         stu_id = self.get_secure_cookie('id')
@@ -66,7 +67,7 @@ class HelloHandler(BaseHandler):
             stu_id = stu_id.decode('utf-8')
             usertype = 0 if not usertype else int(usertype.decode('utf-8'))
         crrnt_sbjct = self.getCrrntSbjct(all_sbjcts,sbjct_id) if all_sbjcts else ()
-        if crrnt_sbjct and crrnt_sbjct[3]:
+        if crrnt_sbjct and (crrnt_sbjct[3] or usertype):
             all_answrs = StuAnswr().getAnswrs(crrnt_sbjct[0])
         else:
             if crrnt_sbjct and name:
@@ -74,7 +75,7 @@ class HelloHandler(BaseHandler):
             else:
                 all_answrs = []
         self.render('index.html',dict(stu_id=stu_id,name=name,usertype=usertype,
-            all_sbjcts=all_sbjcts,crrnt_sbjct=crrnt_sbjct,
+            all_sbjcts=all_sbjcts,crrnt_sbjct=crrnt_sbjct,info=info,
             all_answrs=all_answrs,all_hlp_self=all_hlp_self))
 
     def post(self,sbjct_id):
@@ -83,13 +84,13 @@ class HelloHandler(BaseHandler):
         name = self.get_argument("name",default='')
         psswd = self.get_argument("psswd",default='')
         if name and psswd:
-            re = Stu(name=name,psswd=psswd).isRgstr()
-            # print(re)
+            re = Stu(name=name,psswd=psswd,ipaddr=self.request.remote_ip).isRgstr()
+            # print(self.request.remote_ip)
             if re:
                 self.set_secure_cookie('name',str(re[1]))
                 self.set_secure_cookie('id',str(re[0]))
                 self.set_secure_cookie('usertype',str(re[3]))
-                if crrnt_sbjct and crrnt_sbjct[3]:
+                if crrnt_sbjct and (crrnt_sbjct[3] or re[3]):
                     all_answrs = StuAnswr().getAnswrs(crrnt_sbjct[0])
                 elif crrnt_sbjct:
                     all_answrs = StuAnswr().getSelfAnswr(crrnt_sbjct[0],int(re[0]))
@@ -97,12 +98,12 @@ class HelloHandler(BaseHandler):
                     all_answrs = []
                 all_hlp_self = self.getHlps()
                 self.render('index.html',dict(stu_id=re[0],name=name,usertype=re[3],
-                    all_sbjcts=all_sbjcts,crrnt_sbjct=crrnt_sbjct,
+                    all_sbjcts=all_sbjcts,crrnt_sbjct=crrnt_sbjct,info='',
                     all_answrs=all_answrs,all_hlp_self=all_hlp_self))
             else:
-                self.redirect('/')
+                self.redirect('/?info=' + url_escape("登录失败!"))
         else:
-            self.redirect('/')
+            self.redirect('/?info=' + url_escape("登录失败!"))
 
     def getCrrntSbjct(self,all_sbjcts,sbjct_id):
         if (sbjct_id !=''):
@@ -264,6 +265,7 @@ def stop_serv(sig,frame):
 
 def main():
     setupDb()
+    initIpaddr()
     app = make_app()
     app.listen(8888)
     signal.signal(signal.SIGINT,stop_serv)
