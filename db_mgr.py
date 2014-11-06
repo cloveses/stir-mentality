@@ -96,6 +96,11 @@ class AskHelps(object):
             re = res.fetchall()
         return re
 
+    def delAskHlps(self):
+        with MySqliteDb() as db:
+            db.execute("delete from ask_hlps")
+            db.execute("delete from hlp_answrs")
+
     def save(self):
         re = 0
         if self.stu_id and self.qstn:
@@ -274,7 +279,7 @@ def initIpaddr():
     print('Ip address initialize success!')
 
 if __name__ == '__main__':
-    # with MySqliteDb() as db:
+    with MySqliteDb() as db:
         # initDb(db)
         # print('Sqlite3 Db initialize success!')
         # db.execute("delete from ask_hlps;")
@@ -285,6 +290,8 @@ if __name__ == '__main__':
         # print(res.fetchall())
         # db.execute("alter table stds add column usertype integer default 0")
         # db.execute("alter table stds add column ipaddr varchar(20)")
+        db.execute("delete from hlp_answrs")
+        db.execute("delete from ask_hlps")
         
         # pass
     print('Sqlite3 testing success!')

@@ -39,6 +39,7 @@ div {
     <div id="mgr_nav">
         <input type="button" id="disp_crt_sbjct" value="创建学习主题" />
         <input type="button" id="dis_enable_other" value="开关显示所有答案" />
+        <input type="button" id="del_hlp_data" value="删除自助问答" /> 
     </div>
     %endif
     <div id="main">
@@ -60,6 +61,12 @@ div {
             % endif
 
             % if all_answrs:
+                本节问题完成总人数：${len(all_answrs)}
+                <table>
+                    %for item in all_answrs:
+                        <tr><td>${item[2]}</td><td>${item[4]}</td></tr>
+                    %endfor
+                </table>
                 %for item in all_answrs:
                     <p>${item[3]}<br/>
                         <span class="replyer">${item[2]}</span>:(${item[4]})</p>

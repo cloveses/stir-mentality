@@ -47,7 +47,7 @@ class BaseHandler(RequestHandler):
 
 setttings = {
     "static_path":os.path.join(CURRENT_PATH,'static'),
-    "debug":True,
+    # "debug":True,
     "cookie_secret":"!#%^&&**((JHGHUUkjhlihli+_))(?><:HJKGgue$^&&*",
 }
 mgr_code="mypassword" #管理员注册附加验证码
@@ -250,6 +250,11 @@ class HelpAnswrHdl(BaseHandler):
         self.set_header("Content-Type","application/json; charset=UTF-8")
         self.write(json_encode(res))
 
+class DelAllAnswrHdl(BaseHandler):
+    """ajax 删除所有自助问答"""
+    @authenticated
+    def get(self):
+        AskHelps().delAskHlps()
         
 def make_app():
     return Application([
@@ -262,12 +267,15 @@ def make_app():
         (r"/on_off_answr/([0-9]+)",DispAllAnswrHdl),
         (r"/ask_hlp/([0-9]+)",AskHlpHdl),
         (r"/hlp_answr/([0-9]+)/([0-9]+)",HelpAnswrHdl),
+        (r"/del_hlp_data",DelAllAnswrHdl),
         ],**setttings)
 
 def stop_serv(sig,frame):
     IOLoop.current().stop()
 
 def main():
+    from tornado.log import enable_pretty_logging
+    enable_pretty_logging()
     setupDb()
     initIpaddr()
     app = make_app()

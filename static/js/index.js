@@ -118,6 +118,9 @@ function getCookie(c_name) {
     $("#mgr_nav").on("click","#dis_enable_other",function(){
         $.get("/on_off_answr/"+$("#crrnt_sbjt_id").val());
     });
+    $("#mgr_nav").on("click","#del_hlp_data",function(){
+        $.get("/del_hlp_data");
+    });
 
 
 })
