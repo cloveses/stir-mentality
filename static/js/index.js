@@ -19,14 +19,16 @@ function getCookie(c_name) {
     $("#crt_sbjct").on("click","#add_qstn",function(){
         var title = ($("#title").val()).replace(/ /g,'');
         var qstn = $("#qstn").val();
+        var sbjct_id = $("#crrnt_sbjt_id").val();
+        var urlstr = "/"+$("#add_edit").val()+"_qstn";
         $.ajax({
             type:"post",
-            url:"/add_qstn",
-            data:{title:title,qstn:qstn},
+            url:urlstr,
+            data:{title:title,qstn:qstn,sbjct_id:sbjct_id},
             dataType:"json",
             success:function(data){
                 if (data=='0'){
-                    alert('添加失败，请联系管理员！')
+                    alert('操作失败，请联系管理员！')
                 }else{
                     // alert('添加成功！');
                     // $("#title").val('');
@@ -113,6 +115,14 @@ function getCookie(c_name) {
     });
     $("#mgr_nav").on("click","#disp_crt_sbjct",function(){
         $("#main").hide();
+        $("#add_edit").val("add");
+        $("#crt_sbjct").show();
+    });
+    $("#mgr_nav").on("click","#disp_edt_sbjct",function(){
+        $("#main").hide();
+        $("#add_edit").val("edit");
+        $("#title").val($("#sbjct_title").text());
+        $("#qstn").val($("#sbjct_qstn").html().replace(new RegExp("<p>","gm"),"").replace(new RegExp("</p>","gm"),"\n").replace(new RegExp("&nbsp;","gm")," "));
         $("#crt_sbjct").show();
     });
     $("#mgr_nav").on("click","#dis_enable_other",function(){

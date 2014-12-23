@@ -173,6 +173,12 @@ class StuSbjct(object):
         with MySqliteDb() as db:
             db.execute("delete from stu_sbjct where id=?",(sbjct_id,))
 
+    def update(self,sbjct_id,title,qstn):
+        if sbjct_id and title and qstn:
+            with MySqliteDb() as db:
+                db.execute("update stu_sbjct set title=? where id=?",(title,sbjct_id))
+                db.execute("update stu_sbjct set qstn=? where id=?",(qstn,sbjct_id))
+
 class StuAnswr(object):
     """学生回答 StuAnswrs"""
     def __init__(self, id=0,sbjct_id=0,stu_id=0,answr=''):

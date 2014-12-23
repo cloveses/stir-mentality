@@ -47,7 +47,7 @@ class BaseHandler(RequestHandler):
 
 setttings = {
     "static_path":os.path.join(CURRENT_PATH,'static'),
-    # "debug":True,
+    "debug":True,
     "cookie_secret":"!#%^&&**((JHGHUUkjhlihli+_))(?><:HJKGgue$^&&*",
 }
 mgr_code="mypassword" #管理员注册附加验证码
@@ -189,6 +189,21 @@ class AddQstnHdl(BaseHandler):
                 self.write(json_encode(0))
         else:
             return self.write(json_encode(0))
+
+class EditQstnHdl(BaseHandler):
+
+    @authenticated
+    def post(self):
+        sbjct_id = self.get_argument('sbjct_id')
+        title = self.get_argument('title')
+        qstn = self.get_argument('qstn')
+        qstn = format_html(qstn)
+        if sbjct_id.isdigit() and title and qstn:
+            sbjct_id = int(sbjct_id)
+            StuSbjct().update(sbjct_id,title,qstn)
+            self.write(json_encode(1))
+        else:
+            self.write(json_encode(0))
         
 class AddAnswrHdl(BaseHandler):
     """保存学生提交答案"""
@@ -267,6 +282,7 @@ def make_app():
         (r"/signup",SignUpHandler),
         (r"/logout",LogoutHdl),
         (r"/add_qstn",AddQstnHdl),
+        (r"/edit_qstn",EditQstnHdl),
         (r"/add_answr",AddAnswrHdl),
         (r"/on_off_answr/([0-9]+)",DispAllAnswrHdl),
         (r"/ask_hlp/([0-9]+)",AskHlpHdl),
