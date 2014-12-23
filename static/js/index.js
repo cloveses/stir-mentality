@@ -116,6 +116,8 @@ function getCookie(c_name) {
     $("#mgr_nav").on("click","#disp_crt_sbjct",function(){
         $("#main").hide();
         $("#add_edit").val("add");
+        $("#title").val('');
+        $("#qstn").val('');
         $("#crt_sbjct").show();
     });
     $("#mgr_nav").on("click","#disp_edt_sbjct",function(){
