@@ -169,6 +169,10 @@ class StuSbjct(object):
             re = res.rowcount
         return re
 
+    def delete(self,sbjct_id):
+        with MySqliteDb() as db:
+            db.execute("delete from stu_sbjct where id=?",(sbjct_id,))
+
 class StuAnswr(object):
     """学生回答 StuAnswrs"""
     def __init__(self, id=0,sbjct_id=0,stu_id=0,answr=''):

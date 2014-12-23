@@ -56,6 +56,12 @@ div {
         <div id="thrzone">
             % if crrnt_sbjct:
                 <h3>${crrnt_sbjct[1]}</h3>
+                %if usertype:
+                    <form onsubmit = "return myconfirm()">
+                        <input type="hidden" name="action" value="delete" />
+                        <input type="submit" id="delete" value="删除该主题" />
+                    </form>
+                %endif
                 ${crrnt_sbjct[2]}
                 <input type="hidden" value="${crrnt_sbjct[0]}" id="crrnt_sbjt_id" />
             % endif
@@ -105,10 +111,12 @@ div {
         <div style="clear:both;"></div>
     </div>
     <div id="crt_sbjct">
+        <form onsubmit="return false;">
         学习主题:<br />
         <input type="text" id="title" size="100"  required placeholder="学习主题"/><br />
         <textarea id="qstn" cols="160" rows="30"  required placeholder="问题列表"></textarea><br />
-        <input type="button" id="add_qstn" value="添加学习主题" />
+        <a href="#"  id="add_qstn" >添加学习主题</a>
+        </form>
     </div>
     <div id="footer">
         clove <br/>

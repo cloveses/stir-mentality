@@ -123,4 +123,12 @@ function getCookie(c_name) {
     });
 
 
-})
+});
+
+function myconfirm()
+{
+    if (confirm("确认删除？"))
+        return ture;
+    else
+        return false;
+} 

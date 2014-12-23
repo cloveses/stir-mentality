@@ -56,16 +56,20 @@ LINE_LEN = 38
 class HelloHandler(BaseHandler):
     """ index page """
     def get(self,sbjct_id):
-        info = self.get_argument("info",default='')
-        all_sbjcts = StuSbjct().getSbjcts()
         name = self.get_secure_cookie('name')
-        stu_id = self.get_secure_cookie('id')
         usertype = self.get_secure_cookie('usertype')
-        all_hlp_self = self.getHlps()
+        stu_id = self.get_secure_cookie('id')
         if name:
             name = name.decode('utf-8')
             stu_id = stu_id.decode('utf-8')
             usertype = 0 if not usertype else int(usertype.decode('utf-8'))
+        if usertype and self.get_argument('action','') == 'delete':
+            StuSbjct().delete(int(sbjct_id))
+            self.redirect('/')
+            return
+        info = self.get_argument("info",default='')
+        all_sbjcts = StuSbjct().getSbjcts()
+        all_hlp_self = self.getHlps()            
         crrnt_sbjct = self.getCrrntSbjct(all_sbjcts,sbjct_id) if all_sbjcts else ()
         if crrnt_sbjct and (crrnt_sbjct[3] or usertype):
             all_answrs = StuAnswr().getAnswrs(crrnt_sbjct[0])
